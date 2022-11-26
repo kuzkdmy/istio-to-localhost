@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option java_package = "com.test.transport_protocol";
+option java_multiple_files = true;
+import "google/protobuf/wrappers.proto";
+
+package grpc;
+
+service UsersService {
+  rpc ListUsers(ListUsersRequestProto) returns (ListUsersResponseProto);
+}
+
+message ListUsersRequestProto {
+  repeated int64 ids = 1;
+  repeated string emails = 2;
+  repeated string insurance_ids = 3;
+}
+
+message ListUsersResponseProto {
+  repeated UserProto data = 1;
+}
+
+message UserProto {
+  int64 id = 1;
+  string email = 2;
+  google.protobuf.StringValue insurance_id = 3;
+}
+

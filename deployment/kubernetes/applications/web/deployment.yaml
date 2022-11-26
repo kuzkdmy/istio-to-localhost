@@ -1,0 +1,72 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "web"
+  labels:
+    app: "web"
+spec:
+  selector:
+    matchLabels:
+      app: "web"
+  revisionHistoryLimit: 10
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "web"
+        sidecar.istio.io/inject: "true"
+    spec:
+      containers:
+        - imagePullPolicy: "IfNotPresent"
+          image: "test-istio/web"
+          ports:
+            - name: "http"
+              containerPort: 9000
+            - name: "grpc"
+              containerPort: 10000
+          envFrom:
+            - configMapRef:
+                name: "web"
+          name: "web"
+          env:
+            - name: "KUBERNETES_PODNAME"
+              valueFrom:
+                fieldRef:
+                  fieldPath: "metadata.name"
+          startupProbe:
+            httpGet:
+              path: "/health/liveness"
+              port: 9000
+              httpHeaders:
+                - name: "X-Kubernetes-Header"
+                  value: "StartupCheck"
+            initialDelaySeconds: 5
+            failureThreshold: 120
+            periodSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: "/health/readiness"
+              port: 9000
+              httpHeaders:
+                - name: "X-Kubernetes-Header"
+                  value: "ReadinessCheck"
+            initialDelaySeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 30
+            periodSeconds: 1
+          livenessProbe:
+            httpGet:
+              path: "/health/liveness"
+              port: 9000
+              httpHeaders:
+                - name: "X-Kubernetes-Header"
+                  value: "LivenessCheck"
+            initialDelaySeconds: 15
+            periodSeconds: 60
+            timeoutSeconds: 30
+            failureThreshold: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: "RollingUpdate"

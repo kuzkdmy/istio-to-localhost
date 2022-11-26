@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_package = "com.test.transport_protocol";
+option java_multiple_files = true;
+
+package grpc;
+
+service InsuranceService {
+  rpc ListInsurances(ListInsurancesRequestProto) returns (ListInsurancesResponseProto);
+}
+
+message ListInsurancesRequestProto {
+  repeated string ids = 1;
+}
+
+message ListInsurancesResponseProto {
+  repeated InsuranceProto data = 1;
+}
+
+message InsuranceProto {
+  string id = 1;
+  string description = 2;
+}
+
