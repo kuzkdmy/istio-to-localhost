@@ -1,0 +1,2 @@
+create schema connector_hub_metadata;
+create schema connector_hub_connections;

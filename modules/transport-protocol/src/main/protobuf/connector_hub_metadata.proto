@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option java_package = "com.test.transport_protocol";
+option java_multiple_files = true;
+
+package grpc;
+
+service ConnectorHubMetadataService {
+  rpc DestinationMetadata(DestinationMetadataRequestProto) returns (DestinationMetadataResponseProto);
+  rpc IntegrationMetadata(IntegrationMetadataRequestProto) returns (IntegrationMetadataResponseProto);
+}
+
+message DestinationMetadataRequestProto {
+  repeated string destination_id = 1;
+}
+message DestinationMetadataResponseProto {
+  repeated DestinationMetadataProto data = 1;
+}
+message DestinationMetadataProto {
+  string destination_id = 1;
+  string destination_name = 2;
+}
+message IntegrationMetadataRequestProto {
+  string destination_id = 1;
+  repeated string integration_id = 2;
+}
+message IntegrationMetadataResponseProto {
+  repeated IntegrationMetadataProto data = 1;
+}
+message IntegrationMetadataProto {
+  string destination_id = 1;
+  string integration_id = 2;
+  string integration_name = 3;
+  // todo required properties data
+}

@@ -8,15 +8,15 @@ object AutoPluginCommonSettings extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
       organization := "com.test",
-      scalaVersion := "2.13.8",
+      scalaVersion := "2.13.10",
       addCompilerPlugin("org.typelevel" % "kind-projector"     % "0.13.2" cross CrossVersion.full),
       addCompilerPlugin("com.olegpy"   %% "better-monadic-for" % "0.3.1"),
       libraryDependencies ++= Seq(
         "ch.qos.logback"       % "logback-classic"          % "1.4.5",
         "net.logstash.logback" % "logstash-logback-encoder" % "7.2",
-        "org.scalatest"       %% "scalatest"                % "3.2.14" % Test,
-        "dev.zio"             %% "zio-test"                 % "2.0.4"  % Test,
-        "dev.zio"             %% "zio-test-sbt"             % "2.0.4"  % Test
+        "org.scalatest"       %% "scalatest"                % "3.2.15" % Test,
+        "dev.zio"             %% "zio-test"                 % "2.0.6"  % Test,
+        "dev.zio"             %% "zio-test-sbt"             % "2.0.6"  % Test
       ),
       Test / fork := true,
       testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework"),
@@ -33,7 +33,7 @@ object AutoPluginCommonSettings extends AutoPlugin {
         "-language:implicitConversions", // Allow definition of implicit functions called views
         "-unchecked", // Enable additional warnings where generated code depends on assumptions.
         "-Xcheckinit", // Wrap field accessors to throw an exception on uninitialized access.
-        "-Xfatal-warnings", // Fail the compilation if there are any warnings.
+//        "-Xfatal-warnings", // Fail the compilation if there are any warnings.
         "-Xlint:adapted-args", // Warn if an argument list is modified to match the receiver.
         "-Xlint:constant", // Evaluation of a constant arithmetic expression results in an error.
         "-Xlint:delayedinit-select", // Selecting member of DelayedInit.

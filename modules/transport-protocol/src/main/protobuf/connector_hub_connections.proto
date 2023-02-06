@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+option java_package = "com.test.transport_protocol";
+option java_multiple_files = true;
+
+package grpc;
+
+service ConnectorHubConnectionsService {
+  rpc CreateConnection(CreateConnectionRequestProto) returns (CreateConnectionResponseProto);
+  rpc DeleteConnection(DeleteConnectionRequestProto) returns (DeleteConnectionResponseProto);
+  rpc UpdateConnection(UpdateConnectionRequestProto) returns (UpdateConnectionResponseProto);
+  rpc ListConnections(ListConnectionsRequestProto) returns (ListConnectionsResponseProto);
+}
+
+message ListConnectionsRequestProto {
+  uint64 tenant_id = 1;
+  repeated string integration_id = 2;
+  repeated string destination_id = 3;
+  repeated string ids = 4;
+}
+
+message ListConnectionsResponseProto {
+  repeated ConnectionProto data = 1;
+}
+
+message ConnectionProto {
+  uint64 tenant_id = 1;
+  string integration_id = 2;
+  string destination_id = 3;
+  string id = 4;
+  //  todo data
+}
+
+message CreateConnectionRequestProto {
+  uint64 tenant_id = 1;
+  string integration_id = 2;
+  string destination_id = 3;
+  //  todo data
+}
+message CreateConnectionResponseProto {
+
+}
+
+message DeleteConnectionRequestProto {
+  uint64 tenant_id = 1;
+  string integration_id = 2;
+  string destination_id = 3;
+  string id = 4;
+}
+message DeleteConnectionResponseProto {
+
+}
+message UpdateConnectionRequestProto {
+  uint64 tenant_id = 1;
+  string integration_id = 2;
+  string destination_id = 3;
+  string id = 4;
+  //  todo data
+}
+message UpdateConnectionResponseProto {
+
+}
